@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Task List</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        button {
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<h1>Task List</h1>
+
+<a th:href="@{/tasks/new}">
+    <button>Create New Task</button>
+</a>
+
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Description</th>
+        <th>Status</th>
+        <th>Execution Period</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="task : ${tasks}">
+        <td th:text="${task.id}">1</td>
+        <td th:text="${task.description}">Sample Description</td>
+        <td>
+            <form th:action="@{/tasks/update-status}" method="post">
+                <input type="hidden" name="taskId" th:value="${task.id}"/>
+                <select name="status">
+                    <option value="OPEN" th:selected="${task.status.name()} == 'OPEN'">OPEN</option>
+                    <option value="IN_PROGRESS" th:selected="${task.status.name()} == 'IN_PROGRESS'">IN_PROGRESS
+                    </option>
+                    <option value="DONE" th:selected="${task.status.name()} == 'DONE'">DONE</option>
+                </select>
+                <button type="submit">Update Status</button>
+            </form>
+        </td>
+        <td th:text="${task.executionPeriod}">2024-01-01 to 2024-02-01</td>
+        <td>
+            <a th:href="@{/tasks/{id}(id=${task.id})}">
+                <button>View Details</button>
+            </a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

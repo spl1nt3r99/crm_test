@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Task Details</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+<h1>Task Details</h1>
+
+<table>
+    <tr>
+        <th>ID</th>
+        <td th:text="${task.id}"></td>
+    </tr>
+    <tr>
+        <th>Description</th>
+        <td th:text="${task.description}"></td>
+    </tr>
+    <tr>
+        <th>Status</th>
+        <td th:text="${task.status}"></td>
+    </tr>
+    <tr>
+        <th>Execution Period</th>
+        <td th:text="${task.executionPeriod}"></td>
+    </tr>
+    <tr>
+        <th>Contact</th>
+        <td>
+            <div th:if="${task.contact != null}">
+                <p th:text="'Name: ' + ${task.contact.firstName} + ' ' + ${task.contact.lastName}"></p>
+                <p th:text="'Email: ' + ${task.contact.email}"></p>
+                <div th:if="${task.contact.client != null}">
+                    <h4>Client Information</h4>
+                    <p th:text="'Name: ' + ${task.contact.client.name}"></p>
+                    <p th:text="'Domain: ' + ${task.contact.client.domain}"></p>
+                    <p th:text="'Address: ' + ${task.contact.client.address}"></p>
+                </div>
+                <div th:if="${task.contact.client == null}">
+                    <p>No client assigned.</p>
+                </div>
+            </div>
+            <div th:if="${task.contact == null}">
+                <p>No contact assigned.</p>
+            </div>
+        </td>
+    </tr>
+</table>
+
+<a href="/tasks">Back to Task List</a>
+</body>
+</html>

@@ -1,0 +1,23 @@
+services:
+  redis:
+    image: redis
+    ports:
+      - "6379:6379"
+    networks:
+      - redis_app_net
+  postgres:
+    container_name: crm_test_container
+    image: postgres:14-alpine
+    restart: always
+    environment:
+      POSTGRES_USER: crm_user
+      POSTGRES_PASSWORD: pass
+      POSTGRES_DB: crm_test
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./postgres/data:/var/lib/postgresql/data
+      - ./postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
+networks:
+  redis_app_net:
+    driver: bridge
